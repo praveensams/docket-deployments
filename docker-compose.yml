@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+  apache:
+    build:
+      context: .
+      dockerfile: dockerfile
+    container_name: "apache1"
+    ports:
+      - "8005:80"
+    networks:
+      app_net:
+        ipv4_address: 10.0.0.2
+
+    volumes:
+      - "share:/var/www/html" 
+
+
+  apache2:
+    build:
+      context: .
+      dockerfile: dockerfile
+    container_name: "apache2"
+    ports:
+      - "8006:80"
+    networks:
+      app_net:
+        ipv4_address: 10.0.0.3
+
+    volumes:
+      - "share:/var/www/html" 
+
+volumes:
+  share:
+
+networks:
+  app_net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+      -
+        subnet: 10.0.0.0/24
+
